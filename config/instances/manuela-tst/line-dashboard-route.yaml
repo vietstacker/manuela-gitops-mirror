@@ -4,3 +4,4 @@ metadata:
   name: line-dashboard
 spec:
   host: line-dashboard-manuela-tst-all.apps.ocp3.stormshift.coe.muc.redhat.com
+  host: line-dashboard-manuela-tst-all.apps.cluster-sing-e23f.sing-e23f.example.opentlc.com

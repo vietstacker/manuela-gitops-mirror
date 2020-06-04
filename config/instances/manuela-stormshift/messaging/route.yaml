@@ -3,4 +3,4 @@ kind: Route
 metadata:
   name: messaging
 spec:
-  host: messaging-manuela-stormshift-messaging.apps.ocp3.stormshift.coe.muc.redhat.com
+  host: messaging-manuela-stormshift-messaging.apps.cluster-sing-e23f.sing-e23f.example.opentlc.com
