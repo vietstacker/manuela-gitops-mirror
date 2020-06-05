@@ -3,4 +3,4 @@ kind: Route
 metadata:
   name: pushprox-proxy
 spec:
-  host: pushprox-proxy-manuela-argocd-aggregator.apps.ocp3.stormshift.coe.muc.redhat.com
+  host: pushprox-proxy-manuela-argocd-aggregator.apps.cluster-sing-e23f.sing-e23f.example.opentlc.com

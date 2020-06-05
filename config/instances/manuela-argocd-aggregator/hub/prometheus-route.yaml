@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: prometheus
 spec:
-  host: prometheus-manuela-argocd-aggregator.apps.ocp3.stormshift.coe.muc.redhat.com
+  host: prometheus-manuela-argocd-aggregator.apps.cluster-sing-e23f.sing-e23f.example.opentlc.com
   port:
     targetPort: web
   to:
