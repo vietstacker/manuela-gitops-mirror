@@ -29,9 +29,9 @@ resources:
 images:
 - name: messaging
   newName: image-registry.openshift-image-registry.svc:5000/manuela-tst-all/messaging
-  newTag: 0.3.2-7
+  newTag: 0.3.3-31
 - name: machine-sensor
-  newName: image-registry.openshift-image-registry.svc:5000/manuela-tst-all/iot-software-sensor
+  newName: image-registry.openshift-image-registry.svc:5000/manuela-tst-all/machine-sensor
   newTag: 0.3.3-7
 - name: line-dashboard
   newName: image-registry.openshift-image-registry.svc:5000/manuela-tst-all/line-dashboard
