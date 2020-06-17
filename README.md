@@ -5,27 +5,32 @@
 
 - At simulated DataCenter, there will be a GUI to display information sent from IoT sensors running on Edge. All the changes at the edge will be displayed on this GUI.
 
-- In the next phase of testing, there will be the process of CI/CD on DataCenter or running AI/ML at the edge.
+- The simulated DataCenter is also used for Development/Testing Environment which includes CI/CD.
+
+- [TODO] Exercise 3rd and 4th phases for more use cases. i.e running AI/ML at the edge
+
 
 ## Prerequisites
 - There needs to have two Red Hat Openshift Cluster:
-  * Cluster 1: Factory Datacenter (it can be used for CI/CD, Testing env in the next phase)
+  * Cluster 1: Factory Datacenter, CI/CD and Testing env.
   * Cluster 2: Edge/IoT Data Server
 
 ## Cloning necessary repos in both of environment
 - Clone the repo: https://github.com/vietstacker/manuela-dev.git
 - Clone the repo: https://github.com/vietstacker/manuela-gitops.git
+- Clone the repo: https://github.com/vietstacker/manuela.git
 
-## On the Cluster 1 (Factory Datacenter)
-- Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files except files located in "/manuela-tst/" directory
+
+## On the Cluster 1 (Factory Datacenter/ CICD-Testing Env)
+- Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files.
 ```bash
 cd ~/manuela-gitops
-grep -r "sing-e23f" .
+grep -r "sing-1a06" .
 ```
 
 - Subscribe to neccessary operators.
 ``` bash
-cd ~/manuela-dev
+cd ~/manuela
 oc apply -k namespaces_and_operator_subscriptions/openshift-pipelines
 oc apply -k namespaces_and_operator_subscriptions/manuela-ci
 oc apply -k namespaces_and_operator_subscriptions/argocd
@@ -67,12 +72,12 @@ argocd-repo-server                               1/1     Running   0          1m
 argocd-server                                    1/1     Running   0          1m
 ```
 
-- Deploy the Factory Data Center
+- Deploy the Factory Data Center and CI/CD-Testing Env.
 
 ```bash
 oc create -n argocd -f ~/manuela-gitops/meta/argocd-ocp3.yaml
 ```
-Note: In this scope, Red Hat OpenDataHub (ODH) and CI/CD is not used. You can see the .orig files in the ~/manuela-gitops/deployment/execenv-ocp3
+Note: In this scope, Red Hat OpenDataHub (ODH) is not used. You can see the .orig files in the ~/manuela-gitops/deployment/execenv-ocp3
 
 - Remove manuela-temp-amq namespace
 
@@ -83,10 +88,10 @@ oc delete -k namespaces_and_operator_subscriptions/manuela-temp-amq
 
 ## On the Cluster 2 (Edge/IoT Data Server)
 
-- Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files except files located in "/manuela-tst/" directory
+- Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files.
 ```bash
 cd ~/manuela-gitops
-grep -r "sing-e23f" .
+grep -r "sing-1a06" .
 ```
 
 - Deploy ArgoCd
