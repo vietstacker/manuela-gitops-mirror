@@ -21,7 +21,8 @@
 - Clone the repo: https://github.com/vietstacker/manuela.git
 
 
-## On the Cluster 1 (Factory Datacenter/ CICD-Testing Env)
+## Use Case 1: Testing Edge Computing information sent back to Central DC and displayed there.
+### On the Cluster 1 (Factory Datacenter/ CICD-Testing Env)
 - Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files.
 ```bash
 cd ~/manuela-gitops
@@ -86,7 +87,7 @@ This namespace was created to kickstart the ArgoCD deployment of manuela-tst-all
 oc delete -k namespaces_and_operator_subscriptions/manuela-temp-amq
 ```
 
-## On the Cluster 2 (Edge/IoT Data Server)
+### On the Cluster 2 (Edge/IoT Data Server)
 
 - Change the cluster hostname. Grep the existing hostname from github (as an example) and replace it by your cluster name. Run the below command line and replace you cluster name in all the files.
 ```bash
@@ -109,4 +110,25 @@ oc apply -n argocd -f ~/manuela-gitops/meta/argocd-ocp4.yaml
 - Remove manuela-temp-amq namespace
 ```bash
 oc delete -k namespaces_and_operator_subscriptions/manuela-temp-amq
+```
+
+## Use Case 2: Testing CI/CD flow on the CI/CD Environment for Central DC applications development and deploy them.
+### On the Cluster 1 (Factory Datacenter/ CICD-Testing Env)
+
+- Make sure that Cluster 1 is deployed, up and running as in use case 1
+
+- Adjust Tekton secrets to match your environments as below:
+
+- Github Secret:
+
+```bash
+cd ~/manuela-dev
+export GITHUB_PERSONAL_ACCESS_TOKEN=<ChangeMe>
+sed "s/token: cmVwbGFjZW1l/token: $(echo -n $GITHUB_PERSONAL_ACCESS_TOKEN|base64)/" tekton/secrets/github-example.yaml >tekton/secrets/github.yaml
+```
+
+```bash
+cd ~/manuela-dev
+export GITHUB_USER=<ChangeMe>
+sed "s/user: cmVwbGFjZW1l/user: $(echo -n $GITHUB_USER|base64)/" tekton/secrets/github-example.yaml >tekton/secrets/github.yaml
 ```
