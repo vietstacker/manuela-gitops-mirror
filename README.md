@@ -119,7 +119,7 @@ oc delete -k namespaces_and_operator_subscriptions/manuela-temp-amq
 
 - Adjust Tekton secrets to match your environments as below:
 
-- Github Secret:
+- Github Secret. Search for how to get Github personal access token if you do not know:
 
 ```bash
 cd ~/manuela-dev
@@ -131,4 +131,28 @@ sed "s/token: cmVwbGFjZW1l/token: $(echo -n $GITHUB_PERSONAL_ACCESS_TOKEN|base64
 cd ~/manuela-dev
 export GITHUB_USER=<ChangeMe>
 sed "s/user: cmVwbGFjZW1l/user: $(echo -n $GITHUB_USER|base64)/" tekton/secrets/github-example.yaml >tekton/secrets/github.yaml
+```
+
+- ArgoCD Secret:
+
+```bash
+sed "s/ARGOCD_PASSWORD:.*/ARGOCD_PASSWORD: $(oc get secret argocd-cluster -n argocd -o jsonpath='{.data.*}')/" tekton/secrets/argocd-env-secret-example.yaml >tekton/secrets/argocd-env-secret.yaml
+```
+
+- Quay Build Secret:
+```bash
+export QUAY_BUILD_SECRET=ewogICJhdXRocyI6IHsKICAgICJxdWF5LmlvIjogewogICAgICAiYXV0aCI6ICJiV0Z1ZFdWc1lTdGlkV2xzWkRwSFUwczBRVGMzVXpjM1ZFRlpUMVpGVGxWVU9GUTNWRWRVUlZOYU0wSlZSRk5NUVU5VVNWWlhVVlZNUkU1TVNFSTVOVlpLTmpsQk1WTlZPVlpSTVVKTyIsCiAgICAgICJlbWFpbCI6ICIiCiAgICB9CiAgfQp9
+sed "s/\.dockerconfigjson:.*/.dockerconfigjson: $QUAY_BUILD_SECRET/" tekton/secrets/quay-build-secret-example.yaml >tekton/secrets/quay-build-secret.yaml
+```
+
+- Adjust Tekton Config Map:
+Tekton environment config map should have to reflect the environments used for CI/CD. You need to change the values which begin with "GIT_" or end with "REMOTE_IMAGE".
+The path of tektok config map is "~/manuela-dev/tekton/configmaps/environment"
+
+- Instantiate pipelines:
+
+```bash
+cd ~/manuela-dev
+oc apply -k tekton/secrets
+oc apply -k tekton
 ```
